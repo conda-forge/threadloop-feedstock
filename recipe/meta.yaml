@@ -1,36 +1,41 @@
 {% set name = "threadloop" %}
 {% set version = "1.0.2" %}
 
+
 package:
-  name: {{ name }}
-  version: "{{ version }}"
+  name: {{ name|lower }}
+  version: {{ version }}
 
 source:
-  fn: {{ name }}-{{ version }}.tar.gz
-  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  md5: 1398e7c2d0f68bc370332d47693363af
+  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/threadloop-{{ version }}.tar.gz
+  sha256: 8b180aac31013de13c2ad5c834819771992d350267bddb854613ae77ef571944
 
 build:
-  number: 0
-  script: "{{ PYTHON }} -m pip install . --no-deps --ignore-installed -vv "
+  number: 1
   noarch: python
+  script: {{ PYTHON }} -m pip install . -vv
 
 requirements:
-  build:
-    - python
+  host:
+    - python >=3
     - pip
   run:
-    - python
+    - python >=3
     - tornado
 
 test:
   imports:
     - threadloop
+  commands:
+    - pip check
+  requires:
+    - pip
 
 about:
   home: https://github.com/breerly/threadloop
-  license: MIT
   summary: Tornado IOLoop Backed Concurrent Futures
+  license: MIT
+  license_file: LICENSE
 
 extra:
   recipe-maintainers:
